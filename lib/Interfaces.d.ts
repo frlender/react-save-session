@@ -6,8 +6,11 @@ interface SaveSessionProps<T> {
     sessName?: string;
     uid?: string;
     editTextWidth?: number;
+    editTextHeight?: number;
     gc?: number;
     setGc?: (x: React.SetStateAction<number>) => void;
+    buttonClass?: string;
+    editTextStyle?: {};
 }
 interface SessRecord<T> {
     uid: string;
