@@ -37,3 +37,14 @@
   }
 }
 
+.rss-list-sessions-item{
+  /* text-align: left; */
+}
+
+.rss-list-sessions-item-time{
+  margin-left: 1em;
+}
+
+.rss-list-sessions-item-remove{
+  margin-left: 2em;
+}

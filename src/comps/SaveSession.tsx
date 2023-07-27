@@ -85,16 +85,14 @@ function defaultSessFormat<T>(
     enter:(x:SessRecord<T>)=>void
 ){
     return sessions.map((x)=><div key={x.uid} className="rss-list-sessions-item">
-        <span>
-            <a onClick={e=>enter(x)}>{x.sessName} &nbsp; {get_date_string(x.time)}</a>
-        </span>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <span>
-            <a onClick={e=>remove(x.uid)}>remove</a>
-        </span>
+            <a className='rss-list-sessions-item-name-time' onClick={e=>enter(x)}>
+                <span className='rss-list-sessions-item-name'>{x.sessName}</span>
+                <span className="rss-list-sessions-item-time">{get_date_string(x.time)}</span>
+            </a>
+            <a className='rss-list-sessions-item-remove' onClick={e=>remove(x.uid)}>remove</a>
     </div>)
 }
 
 
 
-export {SaveSession, ListSessions, defaultSessFormat}
+export {SaveSession, ListSessions, defaultSessFormat, DBStore}
