@@ -10,7 +10,8 @@ function SaveSession<T>(props:SaveSessionProps<T>){
     const db = new DBStore<SessRecord<T>>(props.dbName)
     const uid = useRef(props.uid ? props.uid : uuidv4())
     const [sessName, setSessName] = useState(props.sessName ? props.sessName:'Session')
-    const editTextWidth = props.editTextWidth? props.editTextWidth : 80
+    const editTextStyle = props.editTextStyle? props.editTextStyle : {}
+    const buttonClass = props.buttonClass? props.buttonClass : ''
 
     const getRecord = ()=>{
         const time = new Date()
@@ -46,9 +47,9 @@ function SaveSession<T>(props:SaveSessionProps<T>){
     
     console.log(download)
     return <span className="rss-save-session">
-        {download && <button onClick={()=>download!()}>Download</button>}
-        <button onClick={()=>save()}>Save</button>
-        <EditText  style={{width: `${editTextWidth}px`}} defaultValue={sessName} 
+        {download && <button className={buttonClass} onClick={()=>download!()}>Download</button>}
+        <button className={buttonClass} onClick={()=>save()}>Save</button>
+        <EditText  style={editTextStyle} defaultValue={sessName} 
             inline={true} onSave={(e:any)=>setSessName(e.value as string)}></EditText>
     </span>
 }

@@ -29,8 +29,8 @@ function App() {
       <button onClick={()=>setGc(gc+1)}>update</button>
       <ListSessions<Dic> dbName='test3'
        enter={enterSess} gc={gc}></ListSessions>
-      <SaveSession<Dic> dbName='test3'
-        getData={getData} download></SaveSession>
+      <SaveSession<Dic> editTextStyle={{'width':'80px','height':'6px'}} dbName='test3'
+         getData={getData} download></SaveSession>
     </div>
   );
 }

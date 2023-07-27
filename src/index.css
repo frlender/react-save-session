@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* .edit-text{
+  width: 80px !important;
+  height: 10px !important;
+} */
+
+.edit-text{
+  vertical-align: -5%;
+}
+
+.btn{
+    /* background-color: #007bff; */
+    border-color: #007bff;
+}
