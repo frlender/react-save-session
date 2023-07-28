@@ -12,6 +12,7 @@ function SaveSession<T>(props:SaveSessionProps<T>){
     const [sessName, setSessName] = useState(props.sessName ? props.sessName:'Session')
     const editTextStyle = props.editTextStyle? props.editTextStyle : {}
     const buttonClass = props.buttonClass? props.buttonClass : ''
+    const format = props.format? props.format: defaultSaveSessFormat
 
     const getRecord = ()=>{
         const time = new Date()
@@ -45,12 +46,23 @@ function SaveSession<T>(props:SaveSessionProps<T>){
             download = props.download as ()=>void
     }
     
-    console.log(download)
+    // console.log(download)
+    return format(download!,save,sessName,setSessName,buttonClass,editTextStyle)
+}
+
+function defaultSaveSessFormat(
+    download:()=>void,
+    save:()=>void,
+    sessName:string,
+    setSessName:(x:React.SetStateAction<string>)=>void,
+    buttonClass: string,
+    editTextStyle: {}){
+
     return <span className="rss-save-session">
-        {download && <button className={buttonClass} onClick={()=>download!()}>Download</button>}
-        <button className={buttonClass} onClick={()=>save()}>Save</button>
-        <EditText  style={editTextStyle} defaultValue={sessName} 
-            inline={true} onSave={(e:any)=>setSessName(e.value as string)}></EditText>
+    {download && <button className={buttonClass} onClick={()=>download!()}>Download</button>}
+    <button className={buttonClass} onClick={()=>save()}>Save</button>
+    <EditText  style={editTextStyle} defaultValue={sessName} 
+        inline={true} onSave={(e:any)=>setSessName(e.value as string)}></EditText>
     </span>
 }
 
@@ -83,8 +95,9 @@ function defaultSessFormat<T>(
     sessions:SessRecord<T>[],
     remove:(x:string)=>void,
     enter:(x:SessRecord<T>)=>void
-){
-    return sessions.map((x)=><div key={x.uid} className="rss-list-sessions-item">
+){  
+    const sortedSessions = _.sortBy(sessions,x=>-x.time)
+    return sortedSessions.map((x)=><div key={x.uid} className="rss-list-sessions-item">
             <a className='rss-list-sessions-item-name-time' onClick={e=>enter(x)}>
                 <span className='rss-list-sessions-item-name'>{x.sessName}</span>
                 <span className="rss-list-sessions-item-time">{get_date_string(x.time)}</span>
@@ -95,4 +108,4 @@ function defaultSessFormat<T>(
 
 
 
-export {SaveSession, ListSessions, defaultSessFormat, DBStore}
+export {SaveSession, ListSessions, DBStore}

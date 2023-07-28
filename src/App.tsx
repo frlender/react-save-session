@@ -29,7 +29,8 @@ function App() {
       <button onClick={()=>setGc(gc+1)}>update</button>
       <ListSessions<Dic> dbName='test3'
        enter={enterSess} gc={gc}></ListSessions>
-      <SaveSession<Dic> editTextStyle={{'width':'80px','height':'6px'}} dbName='test3'
+       {/* use verticalAlign not vertical-align here */}
+      <SaveSession<Dic> editTextStyle={{'width':'80px','height':'6px','verticalAlign':'-5%'}} dbName='test3'
          getData={getData} download></SaveSession>
     </div>
   );
