@@ -11,6 +11,7 @@ interface SaveSessionProps<T> {
     setGc?: (x: React.SetStateAction<number>) => void;
     buttonClass?: string;
     editTextStyle?: {};
+    format?: (download: () => void, save: () => void, sessName: string, setSessName: (x: React.SetStateAction<string>) => void, buttonClass: string, editTextStyle: {}) => JSX.Element[];
 }
 interface SessRecord<T> {
     uid: string;
@@ -21,7 +22,7 @@ interface SessRecord<T> {
 interface ListSessionsProps<T> {
     dbName: string;
     enter: (x: SessRecord<T>) => void;
-    format?: (sessions: SessRecord<T>[], remove: (x: string) => void, enter: (x: SessRecord<T>) => void) => JSX.Element[];
     gc?: number;
+    format?: (sessions: SessRecord<T>[], remove: (x: string) => void, enter: (x: SessRecord<T>) => void) => JSX.Element[];
 }
 export type { SaveSessionProps, ListSessionsProps, SessRecord };
