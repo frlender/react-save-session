@@ -13,6 +13,9 @@ function SaveSession<T>(props:SaveSessionProps<T>){
     const editTextStyle = props.editTextStyle? props.editTextStyle : {}
     const buttonClass = props.buttonClass? props.buttonClass : ''
     const format = props.format? props.format: defaultSaveSessFormat
+    const [saved, setSaved] = useState(false)
+    const notificationDelay = props.notificationDelay ? props.notificationDelay : 800
+    const notification = props.notification ? true : false
 
     const getRecord = ()=>{
         const time = new Date()
@@ -25,7 +28,10 @@ function SaveSession<T>(props:SaveSessionProps<T>){
     }
     
     const save = ()=>{
-        db.save(uid.current,getRecord())
+        db.save(uid.current,getRecord()).then(()=>{
+            setSaved(true)
+            setTimeout(()=>setSaved(false),notificationDelay)
+        })
     }
 
     const defaultDownload = ()=>{
@@ -47,12 +53,14 @@ function SaveSession<T>(props:SaveSessionProps<T>){
     }
     
     // console.log(download)
-    return format(download!,save,sessName,setSessName,buttonClass,editTextStyle)
+    return format(download!,save,saved,notification,sessName,setSessName,buttonClass,editTextStyle)
 }
 
 function defaultSaveSessFormat(
     download:()=>void,
     save:()=>void,
+    notification: boolean,
+    saved:boolean,
     sessName:string,
     setSessName:(x:React.SetStateAction<string>)=>void,
     buttonClass: string,
@@ -60,9 +68,11 @@ function defaultSaveSessFormat(
 
     return <span className="rss-save-session">
     {download && <button className={buttonClass} onClick={()=>download!()}>Download</button>}
-    <button className={buttonClass} onClick={()=>save()}>Save</button>
-    <EditText  style={editTextStyle} defaultValue={sessName} 
-        inline={true} onSave={(e:any)=>setSessName(e.value as string)}></EditText>
+        <button className={buttonClass} onClick={()=>save()}>Save</button>
+        <EditText  style={editTextStyle} defaultValue={sessName} 
+            inline={true} onSave={(e:any)=>setSessName(e.value as string)}></EditText>
+        {/* <span className="rss-save-session-saved">Saved!</span> */}
+        {notification && saved && <span className="rss-save-session-saved">Saved!</span>}
     </span>
 }
 

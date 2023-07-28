@@ -7,11 +7,13 @@ interface SaveSessionProps<T> {
     uid?: string;
     editTextWidth?: number;
     editTextHeight?: number;
-    gc?: number;
-    setGc?: (x: React.SetStateAction<number>) => void;
     buttonClass?: string;
     editTextStyle?: {};
-    format?: (download: () => void, save: () => void, sessName: string, setSessName: (x: React.SetStateAction<string>) => void, buttonClass: string, editTextStyle: {}) => JSX.Element[];
+    notification?: boolean;
+    notificationDelay?: number;
+    gc?: number;
+    setGc?: (x: React.SetStateAction<number>) => void;
+    format?: (download: () => void, save: () => void, notification: boolean, saved: boolean, sessName: string, setSessName: (x: React.SetStateAction<string>) => void, buttonClass: string, editTextStyle: {}) => JSX.Element[];
 }
 interface SessRecord<T> {
     uid: string;

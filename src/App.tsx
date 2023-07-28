@@ -31,7 +31,7 @@ function App() {
        enter={enterSess} gc={gc}></ListSessions>
        {/* use verticalAlign not vertical-align here */}
       <SaveSession<Dic> editTextStyle={{'width':'80px','height':'6px','verticalAlign':'-5%'}} dbName='test3'
-         getData={getData} download></SaveSession>
+         getData={getData} notification download></SaveSession>
     </div>
   );
 }

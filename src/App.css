@@ -48,3 +48,10 @@
 .rss-list-sessions-item-remove{
   margin-left: 2em;
 }
+
+.rss-save-session-saved{
+  position: absolute;
+  z-index: 1;
+  margin-top: 3.5px;
+  font-size: 0.8em
+}
