@@ -1,8 +1,14 @@
 /// <reference types="react" />
+interface SessRecord<T> {
+    uid: string;
+    time: Date;
+    sessName: string;
+    data: T;
+}
 interface SaveSessionProps<T> {
     dbName: string;
     getData: () => T;
-    download?: boolean | (() => void);
+    download?: boolean | ((x: SessRecord<T>) => void);
     sessName?: string;
     uid?: string;
     editTextWidth?: number;
@@ -13,13 +19,7 @@ interface SaveSessionProps<T> {
     notificationDelay?: number;
     gc?: number;
     setGc?: (x: React.SetStateAction<number>) => void;
-    format?: (download: () => void, save: () => void, notification: boolean, saved: boolean, sessName: string, setSessName: (x: React.SetStateAction<string>) => void, buttonClass: string, editTextStyle: {}) => JSX.Element[];
-}
-interface SessRecord<T> {
-    uid: string;
-    time: Date;
-    sessName: string;
-    data: T;
+    format?: (getRecord: () => SessRecord<T>, download: (x: SessRecord<T>) => void, save: () => void, notification: boolean, saved: boolean, sessName: string, setSessName: (x: React.SetStateAction<string>) => void, buttonClass: string, editTextStyle: {}) => JSX.Element[];
 }
 interface ListSessionsProps<T> {
     dbName: string;

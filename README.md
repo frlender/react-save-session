@@ -8,7 +8,7 @@ This package contains two components: `<SaveSession/>` to manage session saving 
 ```shell
 npm i react-save-session
 ```
-This repo is created using create-react-app. After downloading this repo and install dependancies with `npm install`, run `npm start` to start an example on how to use these components.
+This repo is created using create-react-app. After downloading and install dependancies with `npm install`, run `npm start` to start an example on how to use this package.
 
 ## Usage
 ```TypeScript
