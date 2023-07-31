@@ -1,46 +1,93 @@
-# Getting Started with Create React App
+# react-save-session
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React components to manage session saving in browser's local storage using IndexedDB. 
 
-## Available Scripts
+This package contains two components: `<SaveSession/>` to manage session saving and `<ListSessions />` to display and retrieve saved sessions.
 
-In the project directory, you can run:
+## Install
+```shell
+npm i react-save-session
+```
+This repo is created using create-react-app. After downloading this repo and install dependancies with `npm install`, run `npm start` to start an example on how to use these components.
 
-### `npm start`
+## Usage
+```TypeScript
+import {SaveSession,ListSessions} from 'react-save-session'
+```
+A real example using this package can be found here:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+https://frlender.github.io/comut-viz-app/
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### SaveSession
+In its basic form, the `<SaveSession />` component consits of a save button and an editable textarea displaying the session name. The interface of the `<SaveSession />` component is:
 
-### `npm test`
+```TypeScript
+interface SaveSessionProps<T>{
+    dbName: string,
+    getData: ()=>T
+    sessName?: string,
+    editTextWidth?: number
+    editTextHeight?: number
+    buttonClass?: string
+    editTextStyle?: {},
+    notification?: boolean
+    notificationDelay?: number
+    download?:(x:SessRecord<T>)=>void
+    uid?:string,
+    gc?: number
+    setGc?: (x:React.SetStateAction<number>)=>void
+    format?: ...
+}
+```
+`<T>`: TypeScript interface for the saved session data. It is the users' responsibilty to make sure the session data are savable in IndexedDB or be able converted into a JSON string. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`dbName`： The database name of the underlying IndexedDB into which the session will be saved. It is normally the name of your website or any uniquely identifiable string.
 
-### `npm run build`
+`getData`: A function that returns the session data.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`sessName`: The default session name to be dispalyed in the editable textarea. Defaults to "Session".
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`editTextWidth`: the width of the editable textarea.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`editTextHeight`: the height of the editable textarea.
 
-### `npm run eject`
+`buttonClass`: the class names passed to the button(s) in the component.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+`editTextStyle`: the styles applied to the editable textarea.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`notification`: whether to show a notification flag that will disappear after a short delay to notify that a session has been saved.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`notificationDelay`: defaults to 800ms.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`download`: If true, show also the download button. Clicking on the button will download the session data as a `SessionRecord` in a JSON file. If a function is passed, the function will be given a `SessionRecord` and handles how to save the `SessionRecord` into a file. The interface of `SessionRecord` is showed below. `time` is the local time when the session is saved.
 
-## Learn More
+```TypeScript
+interface SessRecord<T>{
+    uid: string,
+    time: Date,
+    sessName: string,
+    data: T,
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`uid`: The UUID of a session. If `uid` is passed and a session with this uid was previously saved in the IndexedDB, the old record will be overwritten after clicking the save button. If `uid` is not passed, a new one is created for the session.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`gc`: A global counter. With the `setGC` function, it controls update of the `<ListSessions />` component after a session is saved. `gc` should be a state variable created in a parent component common to `<SaveSession />` and  `<ListSessions />`. Usually, users do not need to set this variable as the two components are commonly placed in different pages (views) of an app. Navigating between pages (views) should automatically update `<ListSessions />`. 
+
+
+### ListSessions
+The interface of the `<SaveSession />` component is
+```TypeScript
+interface ListSessionsProps<T>{
+    dbName: string,
+    enter: (x:SessRecord<T>)=>void,
+    gc?: number,
+    format?: ...
+}
+```
+`dbName`: The same database name as in `<SaveSession />`.
+
+`enter`: A function to be executed after a session link is clicked and the session is retrived from the database. The function is given a `SessionRecord` as input and manages to reconstruct the session from the recored.
+
+`gc`: A global counter. It should be a state variable the change of which updates the component.
+

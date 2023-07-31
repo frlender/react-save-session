@@ -13,12 +13,6 @@ function App() {
   const getData=()=>{
     return {'a':5,'b':6}
   }
-  const sessFormat=(sessions:SessRecord<Dic>[],remove:(x:string)=>void)=>{
-    return sessions.map((x)=><div key={x.uid}>
-        <span>{x.data.a}</span>
-        <span></span>
-      </div>)
-  }
 
   const enterSess = (x:SessRecord<Dic>)=>{
 

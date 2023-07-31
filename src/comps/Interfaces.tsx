@@ -1,8 +1,15 @@
 
+interface SessRecord<T>{
+    uid: string,
+    time: Date,
+    sessName: string,
+    data: T,
+}
+
 interface SaveSessionProps<T>{
     dbName: string,
     getData: ()=>T
-    download?: boolean | (()=>void)
+    download?: boolean | ((x:SessRecord<T>)=>void)
     sessName?: string,
     uid?:string,
     editTextWidth?: number
@@ -13,7 +20,9 @@ interface SaveSessionProps<T>{
     notificationDelay?: number
     gc?: number
     setGc?: (x:React.SetStateAction<number>)=>void
-    format?: (download:()=>void,
+    format?: (
+            getRecord: ()=>SessRecord<T>,
+            download:(x:SessRecord<T>)=>void,
             save:()=>void,
             notification: boolean,
             saved: boolean,
@@ -25,12 +34,7 @@ interface SaveSessionProps<T>{
     //       add saved notification
 }
 
-interface SessRecord<T>{
-    uid: string,
-    time: Date,
-    sessName: string,
-    data: T,
-}
+
 
 interface ListSessionsProps<T>{
     dbName: string,

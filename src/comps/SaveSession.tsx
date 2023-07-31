@@ -34,7 +34,7 @@ function SaveSession<T>(props:SaveSessionProps<T>){
         })
     }
 
-    const defaultDownload = ()=>{
+    const defaultDownload = (record:SessRecord<T>)=>{
         const strx = JSON.stringify(getRecord())
         const blob = new Blob([strx]);
         let element = document.createElement("a");
@@ -44,7 +44,7 @@ function SaveSession<T>(props:SaveSessionProps<T>){
         element.remove();
     }
 
-    let download:(()=>void) | undefined = undefined
+    let download:((record:SessRecord<T>)=>void) | undefined = undefined
     if(props.download){
         if(_.isBoolean(props.download))
             download = defaultDownload
@@ -53,11 +53,12 @@ function SaveSession<T>(props:SaveSessionProps<T>){
     }
     
     // console.log(download)
-    return format(download!,save,saved,notification,sessName,setSessName,buttonClass,editTextStyle)
+    return format<T>(getRecord,download!,save,saved,notification,sessName,setSessName,buttonClass,editTextStyle)
 }
 
-function defaultSaveSessFormat(
-    download:()=>void,
+function defaultSaveSessFormat<T>(
+    getRecord: ()=>SessRecord<T>,
+    download:(x:SessRecord<T>)=>void,
     save:()=>void,
     notification: boolean,
     saved:boolean,
@@ -67,7 +68,7 @@ function defaultSaveSessFormat(
     editTextStyle: {}){
 
     return <span className="rss-save-session">
-    {download && <button className={buttonClass} onClick={()=>download!()}>Download</button>}
+    {download && <button className={buttonClass} onClick={()=>download!(getRecord())}>Download</button>}
         <button className={buttonClass} onClick={()=>save()}>Save</button>
         <EditText  style={editTextStyle} defaultValue={sessName} 
             inline={true} onSave={(e:any)=>setSessName(e.value as string)}></EditText>
