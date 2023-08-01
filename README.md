@@ -144,4 +144,4 @@ interface SaveSessionProps<T>{
             ) => JSX.Element[],
 }
 ```
-The default JSX formatters can be found at `src/SaveSession.tsx` and used as examples.
+The default JSX formatters can be found at `src/comps/SaveSession.tsx` and used as examples.
