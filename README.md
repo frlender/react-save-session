@@ -91,3 +91,57 @@ interface ListSessionsProps<T>{
 
 `gc`: A global counter. It should be a state variable the change of which updates the component.
 
+### CSS
+The elements in  the `<SaveSession />` component have the following CSS class names set:
+
+`.rss-save-session`: on the `span` element wrapping all other elements.
+
+`.rss-save-session-saved`: on the `span` element serving as the notification flag.
+
+The buttons and editable textarea can be styled using the `buttonClass` and `editTextStyle` properties of the component.
+
+\
+The elements in  the `<ListSessions />` component have the following CSS class names set:
+
+`.rss-list-sessions`: on the `div` element wrapping all other elements.
+
+`.rss-list-sessions-item`: on the `div` element representing a saved session in the list that displays names and saved time of saved sessions.
+
+`.rss-list-sessions-item-name-time`: on the `a` element displaying the name and time of a saved session. 
+
+`.rss-list-sessions-item-name`: on the `span` element displaying the name of a saved session. 
+
+`.rss-list-sessions-item-time`: on the `span` element displaying the time of a saved session. 
+
+`.rss-list-sessions-item-remove`: on the `a` element that deletes a saved session..
+
+
+## Customization
+react-save-session allows full customization of displayed JSX. Both components have a format property that accepts a function that accepts internal variables and functions as input and returns JSX. The interfaces are:
+
+```TypeScript
+interface SaveSessionProps<T>{
+    ...
+    format?: (
+            getRecord: ()=>SessRecord<T>,
+            download:(x:SessRecord<T>)=>void,
+            save:()=>void,
+            notification: boolean,
+            saved: boolean,
+            sessName: string,
+            setSessName:(x:React.SetStateAction<string>)=>void,
+            buttonClass: string,
+            editTextStyle: {}) => JSX.Element[],
+}
+```
+
+```TypeScript
+interface SaveSessionProps<T>{
+    ...
+    format?: (sessions:SessRecord<T>[],
+                remove:(x:string)=>void,
+                enter:(x:SessRecord<T>)=>void
+            ) => JSX.Element[],
+}
+```
+The default JSX formatters can be found at `src/SaveSession.tsx` and used as examples.
