@@ -1,4 +1,4 @@
-# react-save-session
+# React-save-session
 
 React components to manage session saving in browser's local storage using IndexedDB. 
 
@@ -117,7 +117,7 @@ The elements in  the `<ListSessions />` component have the following CSS class n
 
 
 ## Customization
-react-save-session allows full customization of displayed JSX. Both components have a format property that accepts a function that accepts internal variables and functions as input and returns JSX. The interfaces are:
+React-save-session allows full customization of displayed JSX. Both components have a format property that accepts a function that accepts internal variables and functions as input and returns JSX. The interfaces are:
 
 ```TypeScript
 interface SaveSessionProps<T>{
